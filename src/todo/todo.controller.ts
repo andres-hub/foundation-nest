@@ -6,7 +6,7 @@ import { Todo } from './entities/todo.entity';
 
 @Controller('todo')
 export class TodoController {
-  constructor(private readonly todoService: TodoService) {}
+  constructor(private readonly todoService: TodoService) { }
 
   @Post()
   create(@Body() createTodoDto: CreateTodoDto) {
@@ -19,17 +19,20 @@ export class TodoController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) : Todo {
+  findOne(@Param('id', ParseIntPipe) id: number): Todo {
     return this.todoService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTodoDto: UpdateTodoDto
+  ) {
+    return this.todoService.update(id, updateTodoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  remove(@Param('id',ParseIntPipe) id: number) {
+    return this.todoService.remove(id);
   }
 }
